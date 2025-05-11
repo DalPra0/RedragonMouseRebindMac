@@ -1,0 +1,8 @@
+# Regras udev para permitir acesso a dispositivos USB para usuários não-root
+# Substitua ID_VENDOR e ID_PRODUCT pelos valores do seu mouse
+# Este exemplo usa os valores padrão do script (0x25A7:0xFA08)
+
+SUBSYSTEM=="usb", ATTR{idVendor}=="25a7", ATTR{idProduct}=="fa08", MODE="0666"
+
+# Você pode adicionar regras adicionais para outros dispositivos seguindo o mesmo formato
+# SUBSYSTEM=="usb", ATTR{idVendor}=="xxxx", ATTR{idProduct}=="yyyy", MODE="0666"
