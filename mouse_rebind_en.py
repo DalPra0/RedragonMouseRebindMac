@@ -25,7 +25,7 @@ def get_user_input(prompt, default=None, is_int=False):
             
         if is_int:
             try:
-                return int(user_input, 0)  # Accepts decimal (123) or hex (0x7B)
+                return int(user_input, 0)
             except ValueError:
                 print("Error: Please enter a valid number (decimal or hexadecimal).")
         else:
@@ -46,7 +46,6 @@ def send_command_to_mouse(vid, pid, payload, interface=0, report_type=0x0300):
         bool: True if the command was sent successfully, False otherwise
     """
     try:
-        # Find the device
         print(f"\nFinding device with VID={decimal_to_hex(vid)}, PID={decimal_to_hex(pid)}...")
         dev = usb.core.find(idVendor=vid, idProduct=pid)
         
@@ -56,16 +55,14 @@ def send_command_to_mouse(vid, pid, payload, interface=0, report_type=0x0300):
             
         print(f"Device found!")
         
-        # Detach from kernel if necessary (Linux)
         try:
-            for i in range(3):  # Try on multiple interfaces
+            for i in range(3): 
                 if dev.is_kernel_driver_active(i):
                     print(f"Releasing kernel driver on interface {i}...")
                     dev.detach_kernel_driver(i)
         except Exception as e:
             print(f"Warning while releasing driver: {e}")
         
-        # Configure the device
         print("Configuring device...")
         try:
             dev.set_configuration()
@@ -73,11 +70,10 @@ def send_command_to_mouse(vid, pid, payload, interface=0, report_type=0x0300):
             print(f"Warning during configuration: {e}")
             print("Trying to continue anyway...")
         
-        # Send the control command
         print(f"Sending command: {[hex(x) for x in payload]}")
         result = dev.ctrl_transfer(
-            0x21,      # Request type (Class | Interface)
-            0x09,      # SET_REPORT
+            0x21,     
+            0x09,    
             report_type,
             interface,
             payload,
@@ -105,7 +101,6 @@ def get_payload_from_user():
     payload = []
     for part in payload_parts:
         try:
-            # Convert string to integer (decimal or hex)
             byte_value = int(part, 0)
             if 0 <= byte_value <= 255:
                 payload.append(byte_value)
@@ -135,14 +130,12 @@ def interactive_mode():
     print("DEVICE CONFIGURATION")
     print("-" * 60)
     
-    # Get device information
     vid = get_user_input("Enter mouse VID (decimal or hex)", default=0x25A7, is_int=True)
     pid = get_user_input("Enter mouse PID (decimal or hex)", default=0xFA08, is_int=True)
     
     print(f"\nVID: {vid} ({decimal_to_hex(vid)})")
     print(f"PID: {pid} ({decimal_to_hex(pid)})")
     
-    # Get advanced parameters
     interface = get_user_input("Enter interface number", default=0, is_int=True)
     
     report_type_default = 0x0300
@@ -152,10 +145,8 @@ def interactive_mode():
         is_int=True
     )
     
-    # Get payload
     payload = get_payload_from_user()
     
-    # Confirmation
     print("\n" + "-" * 60)
     print("CONFIGURATION SUMMARY")
     print("-" * 60)
@@ -170,7 +161,6 @@ def interactive_mode():
         print("Operation cancelled by user.")
         return
     
-    # Send the command
     if send_command_to_mouse(vid, pid, payload, interface, report_type):
         print("\nCommand processed successfully!")
     else:
