@@ -1,211 +1,219 @@
-# Redragon Mouse Rebind Mac
-A script to help fully rebind you ReDragon mouse side buttons
-
 # Mouse Rebind
 
-Uma ferramenta em Python para identificar e reconfigurar dispositivos de mouse USB, enviando comandos personalizados via interface HID (Human Interface Device).
+> [README em Português](README.pt-BR.md) também disponível.
 
-## 🔍 Funcionalidades
+A Python tool for identifying and reconfiguring USB mouse devices by sending custom commands via the HID (Human Interface Device) interface.
 
-- **Identificação de Dispositivos USB**: Localiza todos os dispositivos USB conectados e exibe informações detalhadas (VID, PID, fabricante, etc.)
-- **Conversão automática**: Converte valores entre decimal e hexadecimal
-- **Interface interativa**: Solicita todas as informações necessárias ao usuário, não há necessidade de editar o código-fonte
-- **Controle HID**: Envia comandos de controle personalizados para dispositivos USB
+## 🔍 Features
 
-## 📋 Pré-requisitos
+- **USB Device Identification**: Locates all connected USB devices and displays detailed information (VID, PID, manufacturer, etc.)
+- **Automatic Conversion**: Converts values between decimal and hexadecimal
+- **Interactive Interface**: Requests all necessary information from the user, no need to edit source code
+- **HID Control**: Sends custom control commands to USB devices
+- **Multi-language Support**: Available in English and Portuguese
 
-- Python 3.6 ou superior
-- Bibliotecas: `pyusb` (instalada automaticamente via pip)
-- Acesso a dispositivos USB (permissões de administrador ou regras udev no Linux)
+## 📋 Prerequisites
 
-## 🚀 Instalação
+- Python 3.6 or higher
+- Libraries: `pyusb` (automatically installed via pip)
+- Access to USB devices (administrator permissions or udev rules on Linux)
 
-### 1. Clone o repositório
+## 🚀 Installation
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/seunome/mouse-rebind.git
+git clone https://github.com/yourusername/mouse-rebind.git
 cd mouse-rebind
 ```
 
-### 2. Instale as dependências
+### 2. Install dependencies
 
-Método 1: Usando pip diretamente:
+Method 1: Using pip directly:
 ```bash
 pip install -r requirements.txt
 ```
 
-Método 2: Instalação como pacote Python:
+Method 2: Installing as a Python package:
 ```bash
 pip install -e .
 ```
 
-### 3. Permissões (apenas para Linux)
+### 3. Permissions (Linux only)
 
-No Linux, por padrão, usuários comuns não têm permissão para acessar dispositivos USB diretamente. Você tem duas opções:
+On Linux, by default, regular users don't have permission to access USB devices directly. You have two options:
 
-**Opção 1:** Executar os scripts como root (não recomendado para uso regular):
+**Option 1:** Run scripts as root (not recommended for regular use):
 ```bash
 sudo python3 mouse_finder.py
 sudo python3 mouse_rebind.py
 ```
 
-**Opção 2 (Recomendada):** Configurar regras udev para permitir acesso ao seu dispositivo:
+**Option 2 (Recommended):** Configure udev rules to allow access to your device:
 
-1. Copie o arquivo de regras para o diretório correto:
+1. Copy the rules file to the correct directory:
 ```bash
 sudo cp 99-mouse-rebind.rules /etc/udev/rules.d/
 ```
 
-2. Edite o arquivo para adicionar os IDs do seu dispositivo:
+2. Edit the file to add your device IDs:
 ```bash
 sudo nano /etc/udev/rules.d/99-mouse-rebind.rules
 ```
 
-3. Recarregue as regras:
+3. Reload the rules:
 ```bash
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 ```
 
-## 📖 Como usar
+## 📖 How to use
 
-### Passo 1: Identifique o seu dispositivo
+### Step 1: Identify your device
 
-Execute o script de identificação para localizar o seu mouse:
+Run the identification script to locate your mouse:
 
 ```bash
+# English version
+python mouse_finder_en.py
+
+# Portuguese version
 python mouse_finder.py
 ```
 
-Anote o VID (Vendor ID) e PID (Product ID) do seu mouse, você precisará desses valores.
+Note down the VID (Vendor ID) and PID (Product ID) of your mouse, you'll need these values.
 
-**Exemplo de saída:**
+**Example output:**
 ```
 =============================================================
-DISPOSITIVOS USB ENCONTRADOS
+USB DEVICES FOUND
 =============================================================
 
 [1] Gaming Mouse - GameTech
     VID: 9639 (0x25A7), PID: 64008 (0xFA08)
-    Número de Série: 123456789
+    Serial Number: 123456789
 ------------------------------------------------------------
 ```
 
-### Passo 2: Configure o seu mouse
+### Step 2: Configure your mouse
 
-Execute o script de rebind e siga as instruções interativas:
+Run the rebind script and follow the interactive instructions:
 
 ```bash
+# English version
+python mouse_rebind_en.py
+
+# Portuguese version
 python mouse_rebind.py
 ```
 
-O script irá:
-1. Solicitar o VID e PID do seu mouse
-2. Perguntar quais comandos você deseja enviar
-3. Enviar os comandos para o dispositivo
+The script will:
+1. Ask for the VID and PID of your mouse
+2. Ask which commands you want to send
+3. Send the commands to the device
 
-**Exemplo de interação:**
+**Example interaction:**
 ```
 =============================================================
-CONFIGURAÇÃO DE REBIND DE MOUSE USB
+USB MOUSE REBIND CONFIGURATION
 =============================================================
 
-Este script envia comandos para configurar seu mouse USB.
-Se você não conhece o VID/PID do seu mouse, execute 'mouse_finder.py' primeiro.
+This script sends commands to configure your USB mouse.
+If you don't know your mouse's VID/PID, run 'mouse_finder_en.py' first.
 
 ------------------------------------------------------------
-CONFIGURAÇÃO DO DISPOSITIVO
+DEVICE CONFIGURATION
 ------------------------------------------------------------
-Digite o VID do mouse (decimal ou hex) [9639]: 
-Digite o PID do mouse (decimal ou hex) [64008]: 
+Enter mouse VID (decimal or hex) [9639]: 
+Enter mouse PID (decimal or hex) [64008]: 
 
 VID: 9639 (0x25A7)
 PID: 64008 (0xFA08)
-Digite o número da interface [0]: 
-Digite o tipo de relatório (Report Type) [0x0300]: 
+Enter interface number [0]: 
+Enter Report Type [0x0300]: 
 
-Insira o payload como uma sequência de bytes (valores hexadecimais ou decimais).
-Por exemplo: 0x01 0x00 0x04 ou 1 0 4
+Enter payload as a sequence of bytes (hexadecimal or decimal values).
+For example: 0x01 0x00 0x04 or 1 0 4
 Payload: 0x01 0x00 0x04
 
 ------------------------------------------------------------
-RESUMO DA CONFIGURAÇÃO
+CONFIGURATION SUMMARY
 ------------------------------------------------------------
 VID: 9639 (0x25A7)
 PID: 64008 (0xFA08)
 Interface: 0
-Tipo de Relatório: 768 (0x0300)
+Report Type: 768 (0x0300)
 Payload: ['0x1', '0x0', '0x4']
 
-Confirmar e enviar comando? (s/n): s
+Confirm and send command? (y/n): y
 
-Localizando dispositivo com VID=0x25A7, PID=0xFA08...
-Dispositivo encontrado!
-Configurando dispositivo...
-Enviando comando: ['0x1', '0x0', '0x4']
-Comando enviado com sucesso! Bytes transferidos: 3
+Finding device with VID=0x25A7, PID=0xFA08...
+Device found!
+Configuring device...
+Sending command: ['0x1', '0x0', '0x4']
+Command sent successfully! Bytes transferred: 3
 
-Comando processado com sucesso!
+Command processed successfully!
 
-Programa finalizado.
+Program finished.
 ```
 
-## 🔧 Personalização
+## 🔧 Customization
 
-O script de rebind aceita diferentes tipos de comandos, dependendo do seu mouse. Aqui estão alguns exemplos comuns:
+The rebind script accepts different types of commands, depending on your mouse. Here are some common examples:
 
-- **Alterar DPI**: O formato exato depende do fabricante do seu mouse
-- **Reprogramar botões**: Defina novas funções para os botões do mouse
-- **Configurar iluminação**: Altere cores ou efeitos de iluminação (em mouses RGB)
+- **Change DPI**: The exact format depends on your mouse manufacturer
+- **Reprogram buttons**: Set new functions for mouse buttons
+- **Configure lighting**: Change colors or lighting effects (on RGB mice)
 
-## 📝 Notas importantes
+## 📝 Important notes
 
-1. **Compatibilidade**: Nem todos os mouses suportam personalização via USB HID. Em geral, mouses "gamers" e de alta performance têm maior probabilidade de suportar estes comandos.
+1. **Compatibility**: Not all mice support customization via USB HID. Generally, gaming and high-performance mice are more likely to support these commands.
 
-2. **Protocolo do fabricante**: Cada fabricante tem seu próprio protocolo para controle do dispositivo. Os comandos exatos (payload) variam de acordo com o modelo e marca do mouse.
+2. **Manufacturer protocol**: Each manufacturer has its own protocol for device control. The exact commands (payload) vary according to the mouse model and brand.
 
-3. **Backup de configurações**: Sempre anote suas configurações originais antes de fazer alterações, caso precise reverter.
+3. **Backup settings**: Always note your original settings before making changes, in case you need to revert.
 
-4. **Windows**: Em sistemas Windows, pode ser necessário instalar os drivers WinUSB ou libusb-win32 para que a biblioteca pyusb funcione corretamente.
+4. **Windows**: On Windows systems, you may need to install WinUSB or libusb-win32 drivers for the pyusb library to work correctly.
 
-## 🛠️ Resolução de problemas
+## 🛠️ Troubleshooting
 
-### "Dispositivo não encontrado"
-- Verifique se o dispositivo está conectado
-- Certifique-se de que os valores de VID e PID estão corretos
-- No Linux, verifique as permissões (regras udev ou execute como root)
+### "Device not found"
+- Check if the device is connected
+- Make sure VID and PID values are correct
+- On Linux, check permissions (udev rules or run as root)
 
-### "Erro ao enviar comando"
-- Verifique se o payload está correto para o seu modelo de mouse
-- Alguns mouses requerem configurações específicas de interface ou tipo de relatório
+### "Error sending command"
+- Check if the payload is correct for your mouse model
+- Some mice require specific interface or report type settings
 
-### "Permission denied" no Linux
-- Configure as regras udev como descrito na seção de instalação
-- Alternativamente, execute o script como root (`sudo python mouse_rebind.py`)
+### "Permission denied" on Linux
+- Configure udev rules as described in the installation section
+- Alternatively, run the script as root (`sudo python mouse_rebind_en.py`)
 
-### Problemas no Windows
-- Instale os drivers libusb para Windows
-- Execute o prompt de comando como administrador
+### Windows issues
+- Install libusb drivers for Windows
+- Run the command prompt as administrator
 
-### Erros de importação de módulo
-- Certifique-se de que a biblioteca pyusb está instalada: `pip install pyusb`
+### Module import errors
+- Make sure the pyusb library is installed: `pip install pyusb`
 
-## 📚 Recursos adicionais
+## 📚 Additional resources
 
-- [Documentação da biblioteca PyUSB](https://github.com/pyusb/pyusb)
-- [Especificação USB HID](https://www.usb.org/hid)
-- [Padrões de dispositivos HID](https://www.usb.org/document-library/device-class-definition-hid-111)
+- [PyUSB library documentation](https://github.com/pyusb/pyusb)
+- [USB HID specification](https://www.usb.org/hid)
+- [HID device standards](https://www.usb.org/document-library/device-class-definition-hid-111)
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está licenciado sob a [Licença MIT](LICENSE) - veja o arquivo LICENSE para detalhes.
+This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
 
-## 🤝 Contribuições
+## 🤝 Contributions
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
+Contributions are welcome! Feel free to open issues and pull requests.
 
-1. Faça um Fork do projeto
-2. Crie sua Feature Branch (`git checkout -b feature/amazing-feature`)
-3. Commit suas mudanças (`git commit -m 'Add some amazing feature'`)
-4. Push para a Branch (`git push origin feature/amazing-feature`)
-5. Abra um Pull Request
+1. Fork the project
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the Branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
