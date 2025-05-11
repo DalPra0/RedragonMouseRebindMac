@@ -18,6 +18,8 @@ setup(
         'console_scripts': [
             'mouse-finder=mouse_finder:main',
             'mouse-rebind=mouse_rebind:main',
+            'mouse-finder-en=mouse_finder_en:main',
+            'mouse-rebind-en=mouse_rebind_en:main',
         ],
     },
     classifiers=[
