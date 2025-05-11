@@ -1,7 +1,6 @@
-# Redragon Mouse Rebind Mac
-A script to help fully rebind you ReDragon mouse side buttons
-
 # Mouse Rebind
+
+> [README in English](README.md) also available.
 
 Uma ferramenta em Python para identificar e reconfigurar dispositivos de mouse USB, enviando comandos personalizados via interface HID (Human Interface Device).
 
@@ -11,6 +10,7 @@ Uma ferramenta em Python para identificar e reconfigurar dispositivos de mouse U
 - **Conversão automática**: Converte valores entre decimal e hexadecimal
 - **Interface interativa**: Solicita todas as informações necessárias ao usuário, não há necessidade de editar o código-fonte
 - **Controle HID**: Envia comandos de controle personalizados para dispositivos USB
+- **Suporte multilíngue**: Disponível em português e inglês
 
 ## 📋 Pré-requisitos
 
@@ -74,7 +74,11 @@ sudo udevadm trigger
 Execute o script de identificação para localizar o seu mouse:
 
 ```bash
+# Versão em português
 python mouse_finder.py
+
+# Versão em inglês
+python mouse_finder_en.py
 ```
 
 Anote o VID (Vendor ID) e PID (Product ID) do seu mouse, você precisará desses valores.
@@ -96,7 +100,11 @@ DISPOSITIVOS USB ENCONTRADOS
 Execute o script de rebind e siga as instruções interativas:
 
 ```bash
+# Versão em português
 python mouse_rebind.py
+
+# Versão em inglês
+python mouse_rebind_en.py
 ```
 
 O script irá:
