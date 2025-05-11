@@ -140,10 +140,11 @@ def interactive_mode():
     
     report_type_default = 0x0300
     report_type = get_user_input(
-        "Enter Report Type",
-        default=f"0x{report_type_default:04X}",
+        "Digite o tipo de relatório (Report Type)",
+        default=report_type_default,
         is_int=True
     )
+
     
     payload = get_payload_from_user()
     
